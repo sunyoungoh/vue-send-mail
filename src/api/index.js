@@ -2,7 +2,7 @@ import axios from 'axios';
 
 function createInstance() {
   return axios.create({
-    withCredentials: true,
+    baseURL: process.env.VUE_APP_API_URL,
   });
 }
 

@@ -175,7 +175,7 @@ export default {
   },
   methods: {
     makeOptionStr() {
-      return this.selectOption == '' ? 'noOption' : this.selectOption.join();
+      return this.selectOption !== '' ? this.selectOption.join() : '';
     },
     async sendMail() {
       this.sendResult = '';

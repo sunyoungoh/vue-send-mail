@@ -180,10 +180,6 @@ export default {
     },
     async sendMail() {
       this.sendResult = '';
-      console.log({
-        itemId: this.selectItem,
-        toEmail: this.email,
-      });
       this.$refs.form.validate();
       if (!!this.email && !!this.selectItem) {
         this.loading = true;

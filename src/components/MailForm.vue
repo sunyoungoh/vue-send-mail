@@ -62,8 +62,9 @@
 <script>
 import { sendMail } from '@/api/mail';
 import ResultAlert from '@/components/ResultAlert';
+
 export default {
-  name: 'HelloWorld',
+  name: 'MailForm',
   components: {
     ResultAlert,
   },
@@ -80,7 +81,7 @@ export default {
     sendResult: '',
     items: [
       {
-        itemId: '5033569',
+        itemId: 5033569,
         itemName: '2023 심플 플래너',
         itemOptionLabel: '컬러',
         itemOptions: [
@@ -91,18 +92,18 @@ export default {
         ],
       },
       {
-        itemId: '5033568',
+        itemId: 5033568,
         itemName: '2023 모던 플래너',
         itemOptionLabel: '컬러',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
       },
       {
-        itemId: '5033567',
+        itemId: 5033567,
         itemName: '2023 타임라인 플래너',
         itemOptions: [{ label: '위클리타입', value: ['스케줄', '타임테이블'] }],
       },
       {
-        itemId: '5033566',
+        itemId: 5033566,
         itemName: '2023 먼슬리&데일리 플래너',
         itemOptions: [
           { label: '컬러', value: ['화이트', '다크'] },
@@ -111,7 +112,7 @@ export default {
         ],
       },
       {
-        itemId: '5033565',
+        itemId: 5033565,
         itemName: '31DAYS 플래너',
         itemOptions: [
           { label: '컬러', value: ['화이트', '다크'] },
@@ -119,7 +120,7 @@ export default {
         ],
       },
       {
-        itemId: '5033562',
+        itemId: 5033562,
         itemName: '3년 5년 일기',
         itemOptions: [
           { label: '연도', value: ['3년', '5년'] },
@@ -127,39 +128,39 @@ export default {
         ],
       },
       {
-        itemId: '5033564',
+        itemId: 5033564,
         itemName: '세로형 인덱스 노트',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
       },
       {
-        itemId: '5033563',
+        itemId: 5033563,
         itemName: '가로형 인덱스 노트',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
       },
       {
-        itemId: '5033560',
+        itemId: 5033560,
         itemName: '독서노트',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
       },
       {
-        itemId: '5033558',
+        itemId: 5033558,
         itemName: '드라마노트',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
       },
       {
-        itemId: '5033557',
+        itemId: 5033557,
         itemName: '먼슬리 트래커북',
         itemOptions: [
           { label: '컬러', value: ['차콜', '캔디핑크', '스카이블루'] },
         ],
       },
       {
-        itemId: '5033561',
+        itemId: 5033561,
         itemName: '180 베이직 노트',
         itemOption: [''],
       },
       {
-        itemId: '5033559',
+        itemId: 5033559,
         itemName: '180 체커보드 노트',
         itemOption: [''],
       },
@@ -179,6 +180,10 @@ export default {
     },
     async sendMail() {
       this.sendResult = '';
+      console.log({
+        itemId: this.selectItem,
+        toEmail: this.email,
+      });
       this.$refs.form.validate();
       if (!!this.email && !!this.selectItem) {
         this.loading = true;

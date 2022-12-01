@@ -128,6 +128,13 @@ export default {
         ],
       },
       {
+        itemId: 123,
+        itemName: '레시피북',
+        itemOptions: [
+          { label: '컬러', value: ['크림', '올리브', '토스트', '차콜'] },
+        ],
+      },
+      {
         itemId: 5033564,
         itemName: '세로형 인덱스 노트',
         itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],

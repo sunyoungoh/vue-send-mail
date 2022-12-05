@@ -1,17 +1,24 @@
 <template>
   <div class="form-container">
     <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        ref="email"
-        label="이메일"
-        hint="아이디만 입력시 자동으로 @naver.com 가 추가됩니다."
-        required
-        validate-on-blur
-        @blur="addNaverDomain"
-        @click="resetSendResult"
-      ></v-text-field>
+      <div class="order-id-wrap">
+        <v-text-field
+          v-model="orderId"
+          ref="orderId"
+          label="주문번호"
+          :error-messages="orderIdErrorMsg"
+          @click="orderIdErrorMsg = ''"
+        ></v-text-field>
+        <v-btn
+          width="80"
+          color="success white--text"
+          elevation="0"
+          class="ml-4"
+          @click="getOrderDetail"
+          >조회하기
+        </v-btn>
+      </div>
+
       <v-select
         v-model="selectItem"
         :items="items"
@@ -34,6 +41,17 @@
         required
         @click="resetSendResult"
       ></v-select>
+      <v-text-field
+        v-model="email"
+        :rules="emailRules"
+        ref="email"
+        label="이메일"
+        hint="아이디만 입력시 자동으로 @naver.com 가 추가됩니다."
+        required
+        validate-on-blur
+        @blur="addNaverDomain"
+        @click="resetSendResult"
+      ></v-text-field>
       <div class="mt-6 d-flex justify-space-between">
         <v-btn
           :disabled="!valid || loading"
@@ -60,9 +78,10 @@
 </template>
 
 <script>
+import { itemList } from '@/utils/getItemList';
 import { sendMail } from '@/api/mail';
+import { getOrderDetail, dispatchProductOrder } from '@/api/order';
 import ResultAlert from '@/components/ResultAlert';
-
 export default {
   name: 'MailForm',
   components: {
@@ -71,107 +90,18 @@ export default {
   data: () => ({
     loading: false,
     valid: true,
+    orderId: '2022120590516031',
+    orderIdErrorMsg: '',
+    orderIdValid: true,
     email: '',
     emailRules: [
       v => !!v || '이메일을 입력해주세요.',
       v => /.+@.+\..+/.test(v) || '이메일 형식으로 입력해주세요',
     ],
-    selectItem: null,
+    selectItem: '',
     selectOption: [],
     sendResult: '',
-    items: [
-      {
-        itemId: 5033569,
-        itemName: '2023 심플 플래너',
-        itemOptionLabel: '컬러',
-        itemOptions: [
-          {
-            label: '컬러',
-            value: ['라이트', '인디핑크', '스카이블루', '다크'],
-          },
-        ],
-      },
-      {
-        itemId: 5033568,
-        itemName: '2023 모던 플래너',
-        itemOptionLabel: '컬러',
-        itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
-      },
-      {
-        itemId: 5033567,
-        itemName: '2023 타임라인 플래너',
-        itemOptions: [{ label: '위클리타입', value: ['스케줄', '타임테이블'] }],
-      },
-      {
-        itemId: 5033566,
-        itemName: '2023 먼슬리&데일리 플래너',
-        itemOptions: [
-          { label: '컬러', value: ['화이트', '다크'] },
-          { label: '시작요일', value: ['일요일시작', '월요일시작'] },
-          { label: '데일리타입', value: ['스케줄', '타임테이블'] },
-        ],
-      },
-      {
-        itemId: 5033565,
-        itemName: '31DAYS 플래너',
-        itemOptions: [
-          { label: '컬러', value: ['화이트', '다크'] },
-          { label: '데일리타입', value: ['스케줄', '타임테이블'] },
-        ],
-      },
-      {
-        itemId: 5033562,
-        itemName: '3년 5년 일기',
-        itemOptions: [
-          { label: '연도', value: ['3년', '5년'] },
-          { label: '컬러', value: ['화이트', '다크'] },
-        ],
-      },
-      {
-        itemId: 123,
-        itemName: '레시피북',
-        itemOptions: [
-          { label: '컬러', value: ['크림', '올리브', '토스트', '차콜'] },
-        ],
-      },
-      {
-        itemId: 5033564,
-        itemName: '세로형 인덱스 노트',
-        itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
-      },
-      {
-        itemId: 5033563,
-        itemName: '가로형 인덱스 노트',
-        itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
-      },
-      {
-        itemId: 5033560,
-        itemName: '독서노트',
-        itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
-      },
-      {
-        itemId: 5033558,
-        itemName: '드라마노트',
-        itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
-      },
-      {
-        itemId: 5033557,
-        itemName: '먼슬리 트래커북',
-        itemOptions: [
-          { label: '컬러', value: ['차콜', '캔디핑크', '스카이블루'] },
-        ],
-      },
-      {
-        itemId: 5033561,
-        itemName: '180 베이직 노트',
-        itemOption: [''],
-      },
-      {
-        itemId: 5033559,
-        itemName: '180 체커보드 노트',
-        itemOption: [''],
-      },
-    ],
+    items: itemList,
   }),
   computed: {
     options() {
@@ -184,6 +114,18 @@ export default {
   methods: {
     makeOptionStr() {
       return this.selectOption !== '' ? this.selectOption.join() : '';
+    },
+    async getOrderDetail() {
+      if (this.orderId) {
+        try {
+          const { data } = await getOrderDetail(this.orderId);
+          this.selectItem = data.itemNo;
+          this.selectOption = data.option;
+        } catch (error) {
+          if (error.response.status == 400)
+            this.orderIdErrorMsg = error.response.data;
+        }
+      }
     },
     async sendMail() {
       this.sendResult = '';
@@ -198,11 +140,23 @@ export default {
             toEmail: this.email,
           });
           if (sendResult.status == 200) {
+            // 상품 주문번호가 있으면 송장등록까지
+            if (this.orderId) {
+              try {
+                console.log({
+                  itemId: this.selectItem,
+                  itemOptionName: optionStr,
+                  toEmail: this.email,
+                });
+                await dispatchProductOrder(this.orderId);
+              } catch (error) {
+                this.sendResult = 'error';
+              }
+            }
             this.sendResult = 'success';
           }
         } catch (error) {
-          console.log(error);
-          if (error.response.status == 400) this.sendResult = 'error';
+          this.sendResult = 'error';
         } finally {
           this.loading = false;
         }

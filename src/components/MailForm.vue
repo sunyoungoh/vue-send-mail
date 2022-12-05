@@ -82,6 +82,7 @@ import { itemList } from '@/utils/getItemList';
 import { sendMail } from '@/api/mail';
 import { getOrderDetail, dispatchProductOrder } from '@/api/order';
 import ResultAlert from '@/components/ResultAlert';
+
 export default {
   name: 'MailForm',
   components: {
@@ -90,7 +91,7 @@ export default {
   data: () => ({
     loading: false,
     valid: true,
-    orderId: '2022120590516031',
+    orderId: '',
     orderIdErrorMsg: '',
     orderIdValid: true,
     email: '',

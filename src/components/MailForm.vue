@@ -7,18 +7,27 @@
           ref="orderId"
           label="주문번호"
           :error-messages="orderIdErrorMsg"
-          @click="orderIdErrorMsg = ''"
+          @click="
+            {
+              orderIdErrorMsg = '';
+              getOrderloading = false;
+            }
+          "
         ></v-text-field>
         <v-btn
           width="80"
+          :disabled="!orderIdValid || getOrderloading"
+          :loading="getOrderloading"
           color="success white--text"
           elevation="0"
           class="ml-4"
           @click="getOrderDetail"
           >조회하기
+          <template v-slot:loader>
+            <span>조회중...</span>
+          </template>
         </v-btn>
       </div>
-
       <v-select
         v-model="selectItem"
         :items="items"
@@ -27,6 +36,7 @@
         :rules="[v => !!v || '상품을 선택해주세요.']"
         label="상품명"
         required
+        :readonly="isOrderData"
         @change="resetSelectOption"
         @click="resetSendResult"
       ></v-select>
@@ -38,6 +48,7 @@
         :items="item.value"
         :rules="[v => !!v || '옵션을 선택해주세요.']"
         :label="item.label"
+        :readonly="isOrderData"
         required
         @click="resetSendResult"
       ></v-select>
@@ -94,6 +105,8 @@ export default {
     orderId: '',
     orderIdErrorMsg: '',
     orderIdValid: true,
+    getOrderloading: false,
+    isOrderData: false,
     email: '',
     emailRules: [
       v => !!v || '이메일을 입력해주세요.',
@@ -118,13 +131,17 @@ export default {
     },
     async getOrderDetail() {
       if (this.orderId) {
+        this.getOrderloading = true;
         try {
           const { data } = await getOrderDetail(this.orderId);
+          this.isOrderData = true;
           this.selectItem = data.itemNo;
           this.selectOption = data.option;
         } catch (error) {
           if (error.response.status == 400)
             this.orderIdErrorMsg = error.response.data;
+        } finally {
+          this.getOrderloading = false;
         }
       }
     },
@@ -182,6 +199,7 @@ export default {
     },
     resetForm() {
       this.resetSendResult();
+      this.isOrderData = false;
       this.$refs.form.reset();
     },
   },

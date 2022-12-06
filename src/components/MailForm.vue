@@ -10,14 +10,14 @@
           @click="
             {
               orderIdErrorMsg = '';
-              getOrderloading = false;
+              getOrderLoading = false;
             }
           "
         ></v-text-field>
         <v-btn
           width="80"
-          :disabled="!orderIdValid || getOrderloading"
-          :loading="getOrderloading"
+          :disabled="!orderIdValid || getOrderLoading"
+          :loading="getOrderLoading"
           color="success white--text"
           elevation="0"
           class="ml-4"
@@ -105,7 +105,7 @@ export default {
     orderId: '',
     orderIdErrorMsg: '',
     orderIdValid: true,
-    getOrderloading: false,
+    getOrderLoading: false,
     isOrderData: false,
     email: '',
     emailRules: [
@@ -131,7 +131,7 @@ export default {
     },
     async getOrderDetail() {
       if (this.orderId) {
-        this.getOrderloading = true;
+        this.getOrderLoading = true;
         try {
           const { data } = await getOrderDetail(this.orderId);
           this.isOrderData = true;
@@ -141,7 +141,7 @@ export default {
           if (error.response.status == 400)
             this.orderIdErrorMsg = error.response.data;
         } finally {
-          this.getOrderloading = false;
+          this.getOrderLoading = false;
         }
       }
     },

@@ -1,10 +1,14 @@
 import { instance } from './index';
 
-const getOrderDetail = orderId => {
-  return instance.get(`/naver/${orderId}`);
+const getOrders = orderId => {
+  return instance.get(`/naver/orders/${orderId}`);
 };
-const dispatchProductOrder = orderId => {
+
+const getOrderDetail = orderId => {
+  return instance.get(`/naver/detail/${orderId}`);
+};
+const dispatchOrder = orderId => {
   return instance.post(`/naver/${orderId}`);
 };
 
-export { getOrderDetail, dispatchProductOrder };
+export { getOrders, getOrderDetail, dispatchOrder };

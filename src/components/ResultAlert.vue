@@ -1,11 +1,13 @@
 <template>
-  <div class="pt-6">
-    <v-alert v-model="sendResult" :type="sendResult">
-      <span v-if="sendResult == 'success'">
-        메일을 <strong>성공적</strong>으로 보냈습니다.
+  <div>
+    <v-alert :type="result" text>
+      <span v-if="result == 'success'">
+        <slot name="success">
+          메일을 <strong>성공적</strong>으로 보냈습니다.
+        </slot>
       </span>
-      <span v-if="sendResult == 'error'">
-        메일 전송을 <strong>실패</strong>하였습니다.
+      <span v-else>
+        <slot name="error"> 메일 전송을 <strong>실패</strong>하였습니다. </slot>
       </span>
     </v-alert>
   </div>
@@ -14,7 +16,7 @@
 <script>
 export default {
   props: {
-    sendResult: {
+    result: {
       type: String,
       default: '',
     },

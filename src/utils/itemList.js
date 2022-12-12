@@ -56,12 +56,12 @@ export const itemList = [
   {
     itemId: 6668700804,
     itemName: '세로형 인덱스 노트',
-    itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
+    itemOptions: [{ label: '컬러', value: ['화이트', '다크', '화이트+다크'] }],
   },
   {
     itemId: 6711856094,
     itemName: '가로형 인덱스 노트',
-    itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
+    itemOptions: [{ label: '컬러', value: ['화이트', '다크', '화이트+다크'] }],
   },
   {
     itemId: 6907619722,

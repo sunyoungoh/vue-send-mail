@@ -2,7 +2,7 @@
   <div class="form-container">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-btn
-        class="mt-1 mb-4"
+        class="mt-1 mb-2"
         color="primary"
         block
         large
@@ -11,13 +11,18 @@
       >
         상품 추가하기
       </v-btn>
+      <p class="error--text text-center text-caption">{{ errorMsg }}</p>
       <SelectFileDialog
         :dialog="dialog"
         @update:seletedItem="addSelectedItem"
         @update:dialog="val => (dialog = val)"
       />
       <OrderChip v-if="selectedItem" :order-detail="selectedItem" />
-      <EmailInputField v-model="email" @click="resetSendResult" />
+      <EmailInputField
+        v-model="email"
+        :valid="valid"
+        @click="resetSendResult"
+      />
       <v-textarea
         v-model="comment"
         name="comment"
@@ -31,11 +36,12 @@
         :comment="comment"
         :valid="valid"
         @update:sendResult="val => (sendResult = val)"
+        @update:errorMsg="setErrorMsg"
         @validate-form="validateForm"
         @reset-form="resetForm"
       />
     </v-form>
-    <ResultAlert v-if="sendResult !== ''" :sendResult="sendResult" />
+    <ResultAlert class="pt-6" v-if="sendResult !== ''" :result="sendResult" />
   </div>
 </template>
 
@@ -57,20 +63,27 @@ export default {
     ResultAlert,
   },
   data: () => ({
-    dialog: false,
-    valid: true,
     email: '',
-    items: itemList,
     selectedItem: [],
     comment: '',
     sendResult: '',
+    errorMsg: '',
+    items: itemList,
+    valid: true,
+    dialog: false,
   }),
   methods: {
+    setErrorMsg() {
+      this.errorMsg = '상품을 추가해주세요';
+    },
+    resetErrorMsg() {
+      this.errorMsg = '';
+    },
     addSelectedItem(item) {
       this.selectedItem.push(item);
+      this.resetErrorMsg();
     },
     removeSelectedItem(i) {
-      console.log('removeItem', this.selectedItem.splice(i, 1));
       this.selectedItem = this.selectedItem.splice(i, 1);
     },
     validateForm() {
@@ -80,8 +93,8 @@ export default {
       this.sendResult = '';
     },
     resetForm() {
+      this.resetErrorMsg();
       this.resetSendResult();
-      this.valid = true;
       this.selectedItem = [];
       this.email = '';
       this.comment = '';

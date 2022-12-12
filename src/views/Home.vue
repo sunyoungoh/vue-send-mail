@@ -15,22 +15,23 @@
       >
         <v-tab
           active-class="font-weight-bold"
-          v-for="item in items"
-          :key="item"
+          v-for="(item, i) in items"
+          :key="i"
           :ripple="false"
+          @click="$store.commit('setOrderType', item.value)"
         >
-          {{ item }}
+          {{ item.text }}
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
+          <OrderMailForm />
+        </v-tab-item>
+        <v-tab-item>
+          <OrderMailForm />
+        </v-tab-item>
+        <v-tab-item>
           <SelectFileMailForm />
-        </v-tab-item>
-        <v-tab-item>
-          <OrderMailForm :order-type="'single'" />
-        </v-tab-item>
-        <v-tab-item>
-          <OrderMailForm :order-type="'multiple'" />
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -50,7 +51,11 @@ export default {
   data() {
     return {
       tab: null,
-      items: ['메일만 발송', '스토어 개별배송', '스토어 묶음배송'],
+      items: [
+        { value: 'single', text: '스토어 개별배송' },
+        { value: 'multiple', text: '스토어 묶음배송' },
+        { value: 'none', text: '메일만 발송' },
+      ],
     };
   },
 };

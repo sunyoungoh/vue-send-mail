@@ -23,10 +23,6 @@
 <script>
 export default {
   props: {
-    orderType: {
-      type: String,
-      default: '',
-    },
     email: {
       type: String,
       default: '',
@@ -67,42 +63,44 @@ export default {
     async sendMail() {
       this.$emit('update:sendResult', '');
       this.$emit('validate-form');
-      if (this.email && this.orderDetail) {
+      if (!this.orderDetail[0]) {
+        this.$emit('update:errorMsg');
+      }
+      if (this.email && !!this.orderDetail[0]) {
         this.loading = true;
         this.loadingText = '발송 중...';
         const sendResult = await this.$store.dispatch(
           'sendMail',
           this.mailData,
         );
+        this.$emit('update:sendResult', sendResult);
         if (this.orderId && sendResult == 'success') {
-          this.loadingText = '송장 등록 중...';
-          let dispatchResult = '';
-          dispatchResult = await this.$store.dispatch(
-            'dispatchOrder',
-            this.orderId,
-          );
-          if (this.orderType == 'multiple') {
-            dispatchResult = await Promise.all(
-              this.orderDetail.map(async item => {
-                return this.$store.dispatch('dispatchOrder', item.orderId);
-              }),
-            );
-          }
-          if (dispatchResult == 'success') {
-            this.$emit('update:sendResult', 'success');
-          } else {
-            this.$emit('update:sendResult', 'error');
-          }
+          let dispatchResult = this.dispatchOrder();
+          this.$emit('update:dispatchResult', dispatchResult);
         }
         this.loading = false;
       }
     },
+    async dispatchOrder() {
+      this.loadingText = '송장 등록 중...';
+      let result = '';
+      if (this.$store.state.orderType == 'single') {
+        result = await this.$store.dispatch('dispatchOrder', this.orderId);
+      } else if (this.$store.state.orderType == 'multiple') {
+        result = await Promise.all(
+          this.orderDetail.map(async item => {
+            return this.$store.dispatch('dispatchOrder', item.orderId);
+          }),
+        );
+        result = result.every(val => val == 'success') ? 'success' : 'error';
+      }
+      return result;
+    },
     resetForm() {
       this.$emit('reset-form');
-      this.$emit('update:valid', true);
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped></style>

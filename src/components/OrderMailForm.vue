@@ -9,7 +9,6 @@
           :rules="[v => !!v || `${this.label}를 조회해주세요.`]"
           :error-messages="errorMsg"
           required
-          validate-on-blur
           @click="resetErrorMsg"
         >
         </v-text-field>
@@ -28,7 +27,11 @@
         </v-btn>
       </div>
       <OrderChip v-if="orderDetail" :order-detail="orderDetail" />
-      <EmailInputField v-model="email" />
+      <EmailInputField
+        v-model="email"
+        :valid="valid"
+        @click="resetSendResult"
+      />
       <v-textarea
         v-model="comment"
         name="comment"
@@ -37,24 +40,30 @@
         clearable
       ></v-textarea>
       <SendBtns
-        :order-type="orderType"
         :email="email"
         :order-id="orderId"
         :order-detail="orderDetail"
         :comment="comment"
         :valid="valid"
         @update:sendResult="val => (sendResult = val)"
-        @update:valid="val => (valid = val)"
+        @update:dispatchResult="val => (dispatchResult = val)"
+        @update:errorMsg="setErrorMsg"
         @validate-form="validateForm"
         @reset-form="resetForm"
       />
     </v-form>
-    <ResultAlert v-if="sendResult !== ''" :send-result="sendResult" />
+
+    <ResultAlert class="pt-6" v-if="sendResult !== ''" :result="sendResult" />
+    <ResultAlert v-if="dispatchResult !== ''" :result="dispatchResult">
+      <template #success>
+        송장을 <strong>성공적</strong>으로 등록했습니다.
+      </template>
+      <template #error> 송장 등록을 <strong>실패</strong>하였습니다. </template>
+    </ResultAlert>
   </div>
 </template>
 
 <script>
-import { getOrders, getOrderDetail } from '@/api/order';
 import EmailInputField from '@/components/EmailInputField';
 import OrderChip from '@/components/OrderChip';
 import ResultAlert from '@/components/ResultAlert';
@@ -68,18 +77,13 @@ export default {
     SendBtns,
     ResultAlert,
   },
-  props: {
-    orderType: {
-      type: String,
-      default: '',
-    },
-  },
   data: () => ({
     email: '',
     orderId: '',
     orderDetail: [],
     comment: '',
     sendResult: '',
+    dispatchResult: '',
     valid: true,
     loading: false,
     errorMsg: '',
@@ -90,44 +94,32 @@ export default {
     },
   },
   methods: {
-    resetErrorMsg() {
-      this.errorMsg = '';
-      this.$refs.orderId.reset();
+    setErrorMsg() {
+      this.errorMsg = `${this.label}를 조회해주세요.`;
     },
-    convertArrToStr(options) {
-      return Array.isArray(options) ? options.join() : options;
+    resetErrorMsg() {
+      this.$refs.orderId.resetValidation();
+      this.errorMsg = '';
     },
     async getOrderInfo() {
-      this.resetSendResult();
+      this.resetResults();
       if (!this.orderId) {
-        this.errorMsg = `${this.label}를 조회해주세요.`;
+        this.setErrorMsg();
       } else {
         this.loading = true;
         try {
-          if (this.orderType == 'single') {
-            const { data } = await getOrderDetail(this.orderId);
-            this.orderDetail = [
-              {
-                itemId: data.productId,
-                itemOptionName: this.convertArrToStr(data.productOption),
-              },
-            ];
-          } else {
-            const { data } = await getOrders(this.orderId);
-            const productOrderIds = data.productOrderIds;
-            this.orderDetail = await Promise.all(
-              productOrderIds.map(async orderId => {
-                return getOrderDetail(orderId);
-              }),
+          if (this.$store.state.orderType == 'single') {
+            this.orderDetail = await this.$store.dispatch(
+              'getOrderDetail',
+              this.orderId,
             );
-            this.orderDetail = this.orderDetail.map(item => {
-              return {
-                orderId: data.productOrderId,
-                itemId: item.data.productId,
-                itemOptionName: this.convertArrToStr(item.data.productOption),
-              };
-            });
+          } else {
+            this.orderDetail = await this.$store.dispatch(
+              'getOrders',
+              this.orderId,
+            );
           }
+          this.resetErrorMsg();
         } catch (error) {
           if (error.response.status == 400) {
             this.errorMsg = error.response.data;
@@ -141,13 +133,13 @@ export default {
     validateForm() {
       this.$refs.form.validate();
     },
-    resetSendResult() {
+    resetResults() {
       this.sendResult = '';
+      this.dispatchResult = '';
     },
     resetForm() {
       this.resetErrorMsg();
-      this.resetSendResult();
-      this.valid = true;
+      this.resetResults();
       this.orderId = '';
       this.orderDetail = [];
       this.email = '';

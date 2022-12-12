@@ -1,20 +1,40 @@
 <template>
-  <div class="order-chips mt-1 mb-4">
-    <v-chip
-      v-for="(order, i) in orderDetail"
-      :key="i"
-      class="my-2 mr-2"
-      color="primary"
-      label
-      outlined
-      close
-      @click:close="removeItem(i)"
-    >
-      <span>
-        {{ order.itemId | itemName }}
-        ({{ order.itemOptionName }})
-      </span>
-    </v-chip>
+  <div class="order-chips mb-4">
+    <template v-if="$store.state.orderType == 'none'">
+      <v-chip
+        v-for="(order, i) in orderDetail"
+        :key="i"
+        class="my-2 mr-2"
+        color="primary"
+        label
+        outlined
+        close
+        @click:close="removeItem(i)"
+      >
+        <span>
+          {{ order.itemId | itemName }}
+          ({{ order.itemOptionName }})
+        </span>
+      </v-chip>
+    </template>
+    <template v-else>
+      <v-chip
+        v-for="(order, i) in orderDetail"
+        :key="i"
+        class="my-2 mr-2"
+        color="primary"
+        label
+        outlined
+      >
+        <v-avatar left>
+          <v-icon>mdi-check</v-icon>
+        </v-avatar>
+        <span>
+          {{ order.itemId | itemName }}
+          ({{ order.itemOptionName }})
+        </span>
+      </v-chip>
+    </template>
   </div>
 </template>
 

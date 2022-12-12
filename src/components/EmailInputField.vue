@@ -1,13 +1,13 @@
 <template>
   <v-text-field
-    v-model="email"
+    :value="value"
     ref="email"
     :rules="emailRules"
     label="이메일"
     hint="아이디만 입력시 자동으로 @naver.com 가 추가됩니다."
     required
-    validate-on-blur
-    @click="$emit('resetSendResult')"
+    @click="reset"
+    @input="$emit('input', $event)"
     @blur="addNaverDomain"
   ></v-text-field>
 </template>
@@ -15,20 +15,30 @@
 <script>
 export default {
   name: 'EmailInputField',
+  props: {
+    value: {
+      type: String,
+    },
+  },
   data: () => ({
-    email: '',
     emailRules: [
       v => !!v || '이메일을 입력해주세요.',
       v => /.+@.+\..+/.test(v) || '이메일 형식으로 입력해주세요',
     ],
   }),
+
   methods: {
-    addNaverDomain() {
-      if (!!this.email && this.email.indexOf('@') == -1) {
-        this.email = `${this.email}@naver.com`;
+    reset() {
+      this.$refs.email.resetValidation();
+      this.$emit('resetSendResult');
+    },
+    addNaverDomain(e) {
+      let email = e.target.value;
+      if (!!email && email.indexOf('@') == -1) {
+        email = `${email}@naver.com`;
         this.$refs.email.resetValidation();
       }
-      this.$emit('input', this.email);
+      this.$emit('input', email);
     },
   },
 };

@@ -40,7 +40,7 @@ export const itemList = [
   },
   {
     itemId: 6339448390,
-    itemName: '3년 5년 일기',
+    itemName: '3년 5년 다이어리',
     itemOptions: [
       { label: '연도', value: ['3년', '5년'] },
       { label: '컬러', value: ['화이트', '다크'] },

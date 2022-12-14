@@ -53,6 +53,7 @@ export default {
   computed: {
     mailData() {
       return {
+        store: '영로그',
         items: this.orderDetail,
         toEmail: this.email,
         comment: this.comment.replaceAll('\n', '<br/>'),
@@ -75,7 +76,7 @@ export default {
         );
         this.$emit('update:sendResult', sendResult);
         if (this.orderId && sendResult == 'success') {
-          let dispatchResult = this.dispatchOrder();
+          const dispatchResult = this.dispatchOrder();
           this.$emit('update:dispatchResult', dispatchResult);
         }
         this.loading = false;

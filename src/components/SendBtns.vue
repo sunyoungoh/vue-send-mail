@@ -69,7 +69,7 @@ export default {
       }
       if (this.email && !!this.orderDetail[0]) {
         this.loading = true;
-        this.loadingText = '발송 중...';
+        this.loadingText = '메일 발송 중...';
         const sendResult = await this.$store.dispatch(
           'sendMail',
           this.mailData,

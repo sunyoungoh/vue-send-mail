@@ -76,7 +76,7 @@ export default {
         );
         this.$emit('update:sendResult', sendResult);
         if (this.orderId && sendResult == 'success') {
-          const dispatchResult = this.dispatchOrder();
+          const dispatchResult = await this.dispatchOrder();
           this.$emit('update:dispatchResult', dispatchResult);
         }
         this.loading = false;

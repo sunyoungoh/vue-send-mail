@@ -70,7 +70,7 @@ export default {
         case 6183672844:
           return '31DAYS 플래너';
         case 6339448390:
-          return '3년 5년 일기';
+          return '3년 5년 다이어리';
         case 6668700804:
           return '세로형 인덱스 노트';
         case 6711856094:

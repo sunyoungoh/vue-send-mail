@@ -27,11 +27,7 @@
         </v-btn>
       </div>
       <OrderChip v-if="orderDetail" :order-detail="orderDetail" />
-      <EmailInputField
-        v-model="email"
-        :valid="valid"
-        @click="resetSendResult"
-      />
+      <EmailInputField v-model="email" :valid="valid" @click="resetResults" />
       <v-textarea
         v-model="comment"
         name="comment"

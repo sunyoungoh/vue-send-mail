@@ -26,8 +26,8 @@
         label
         outlined
       >
-        <v-avatar left>
-          <v-icon>mdi-check</v-icon>
+        <v-avatar left class="mr-0">
+          <v-icon small>mdi-link-variant</v-icon>
         </v-avatar>
         <span>
           {{ order.itemId | itemName }}

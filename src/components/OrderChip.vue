@@ -13,7 +13,7 @@
       >
         <span>
           {{ order.itemId | itemName }}
-          ({{ order.itemOptionName }})
+          {{ order.itemOptionName | roundBraket }}
         </span>
       </v-chip>
     </template>
@@ -31,7 +31,7 @@
         </v-avatar>
         <span>
           {{ order.itemId | itemName }}
-          ({{ order.itemOptionName }})
+          {{ order.itemOptionName | roundBraket }}
         </span>
       </v-chip>
     </template>
@@ -57,6 +57,9 @@ export default {
     },
   },
   filters: {
+    roundBraket(option) {
+      return option ? `(${option})` : '';
+    },
     itemName(itemId) {
       switch (itemId) {
         case 6175018692:

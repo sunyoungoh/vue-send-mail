@@ -75,7 +75,7 @@ export default {
       if (!!this.selectItem && !!this.selectOption[0]) {
         this.$emit('update:seletedItem', {
           itemId: this.selectItem,
-          itemOptionName: this.selectOption.join(','),
+          itemOption: this.selectOption.join(','),
         });
         this.resetSelectBox();
         this.$emit('update:dialog', false);

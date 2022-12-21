@@ -13,7 +13,7 @@
       >
         <span>
           {{ order.itemId | itemName }}
-          {{ order.itemOptionName | roundBraket }}
+          {{ order.itemOption | roundBraket }}
         </span>
       </v-chip>
     </template>
@@ -31,7 +31,7 @@
         </v-avatar>
         <span>
           {{ order.itemId | itemName }}
-          {{ order.itemOptionName | roundBraket }}
+          {{ order.itemOption | roundBraket }}
         </span>
       </v-chip>
     </template>

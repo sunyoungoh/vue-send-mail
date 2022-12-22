@@ -37,6 +37,7 @@ export default new Vuex.Store({
     },
     async getOrderDetail(context, orderId) {
       const { data } = await getOrderDetail(orderId);
+      console.log(data);
       let options = data.productOption;
       options = Array.isArray(options) ? options.join() : options;
       const orderDetail = [
@@ -62,7 +63,7 @@ export default new Vuex.Store({
           ? options.join()
           : options;
         return {
-          orderId: data.productOrderId,
+          orderId: item.data.productOrderId,
           itemId: item.data.productId,
           itemOption: options,
         };

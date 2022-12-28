@@ -44,6 +44,7 @@ export default new Vuex.Store({
         {
           itemId: data.productId,
           itemOption: options,
+          shippingMemo: data.shippingMemo,
         },
       ];
       return orderDetail;
@@ -66,6 +67,7 @@ export default new Vuex.Store({
           orderId: item.data.productOrderId,
           itemId: item.data.productId,
           itemOption: options,
+          shippingMemo: item.data.shippingMemo,
         };
       });
       return orderDetail;

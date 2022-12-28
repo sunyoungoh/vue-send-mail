@@ -27,12 +27,24 @@
         </v-btn>
       </div>
       <OrderChip v-if="orderDetail" :order-detail="orderDetail" />
+      <v-alert
+        v-if="shippingMemo"
+        border="left"
+        colored-border
+        color="primary"
+        elevation="2"
+        class="text-subtitle-2 mb-6"
+      >
+        ✍🏻
+        {{ shippingMemo }}
+      </v-alert>
       <EmailInputField v-model="email" :valid="valid" @click="resetResults" />
       <v-textarea
         v-model="comment"
         name="comment"
         label="코멘트"
-        rows="3"
+        auto-grow
+        rows="1"
         clearable
       ></v-textarea>
       <SendBtns
@@ -48,7 +60,6 @@
         @reset-form="resetForm"
       />
     </v-form>
-
     <ResultAlert class="pt-6" v-if="sendResult !== ''" :result="sendResult" />
     <ResultAlert v-if="dispatchResult !== ''" :result="dispatchResult">
       <template #success>
@@ -83,10 +94,16 @@ export default {
     valid: true,
     loading: false,
     errorMsg: '',
+    shippingMemo: '',
   }),
   computed: {
     label() {
       return this.orderType == 'single' ? '상품주문번호' : '주문번호';
+    },
+    shippingMemoEmail() {
+      const reg = /\S+@+\S+\.+\S{3}/;
+      const email = this.orderDetail[0].shippingMemo.match(reg)[0];
+      return email;
     },
   },
   methods: {
@@ -114,6 +131,11 @@ export default {
               'getOrders',
               this.orderId,
             );
+          }
+          // 배송메모에 이메일이 있을시 email 자동 추가
+          if (this.orderDetail[0]?.shippingMemo) {
+            this.shippingMemo = this.orderDetail[0]?.shippingMemo;
+            this.email = this.shippingMemoEmail;
           }
           this.resetErrorMsg();
         } catch (error) {

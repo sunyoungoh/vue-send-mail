@@ -27,7 +27,8 @@
         v-model="comment"
         name="comment"
         label="코멘트"
-        rows="3"
+        auto-grow
+        rows="1"
         clearable
       ></v-textarea>
       <SendBtns

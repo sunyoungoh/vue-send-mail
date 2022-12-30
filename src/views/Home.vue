@@ -1,10 +1,7 @@
 <template>
   <div class="home">
-    <div class="logo py-5 ma-auto text-center green">
-      <h3 class="logo-text white--text">
-        <v-icon size="22" color="white" class="mr-1 mb-1"> mdi-email </v-icon
-        >SENDMAIL
-      </h3>
+    <div class="logo py-4 ma-auto text-center green">
+      <h3 class="logo-text white--text">Smart Store</h3>
     </div>
     <div class="tabs-container">
       <v-tabs
@@ -12,7 +9,7 @@
         :ripple="false"
         background-color="transparent"
         color="green"
-        height="56"
+        height="50"
         grow
         show-arrows
       >

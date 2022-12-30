@@ -24,10 +24,10 @@
               ({{ order.ordererId }})
             </span>
           </p>
-          <p v-if="shippingMemo">
+          <p v-if="order.shippingMemo">
             ✍🏻 배송메모 :
             <span class="yellow font-weight-medium">
-              {{ shippingMemo }}
+              {{ order.shippingMemo }}
             </span>
           </p>
         </div>
@@ -90,9 +90,6 @@ export default {
     },
   },
   computed: {
-    shippingMemo() {
-      return this.order.shippingMemo;
-    },
     mailData() {
       return {
         store: '영로그',

@@ -26,7 +26,14 @@
           </template>
         </v-btn>
       </div>
-      <OrderChip v-if="orderDetail" :order-detail="orderDetail" />
+      <template v-if="orderDetail" class="order-chips mb-4">
+        <OrderChip
+          v-for="(order, i) in orderDetail"
+          :key="i"
+          :order="order.items"
+          @click.native="openOrderDetail(i)"
+        />
+      </template>
       <v-alert
         v-if="shippingMemo"
         border="left"
@@ -107,6 +114,12 @@ export default {
     },
   },
   methods: {
+    openOrderDetail(index) {
+      window.open(
+        `https://sell.smartstore.naver.com/o/v3/manage/order/popup/${this.orderDetail[index].productOrderId}/productOrderDetail`,
+        '_blank',
+      );
+    },
     setErrorMsg() {
       this.errorMsg = `${this.label}를 조회해주세요.`;
     },

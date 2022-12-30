@@ -17,7 +17,9 @@
         @update:seletedItem="addSelectedItem"
         @update:dialog="val => (dialog = val)"
       />
-      <OrderChip v-if="selectedItem" :order-detail="selectedItem" />
+      <template v-if="selectedItem" class="order-chips mb-4">
+        <OrderChip v-for="(order, i) in orderDetail" :key="i" :order="order" />
+      </template>
       <EmailInputField
         v-model="email"
         :valid="valid"

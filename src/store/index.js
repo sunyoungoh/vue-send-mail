@@ -31,23 +31,15 @@ export default new Vuex.Store({
         await dispatchOrder(orderId);
         dispatchResult = 'success';
       } catch (error) {
+        console.log(error);
         dispatchResult = 'error';
       }
       return dispatchResult;
     },
     async getOrderDetail(context, orderId) {
-      const { data } = await getOrderDetail(orderId);
+      const { data } = await getOrderDetail([orderId]);
       console.log(data);
-      let options = data.productOption;
-      options = Array.isArray(options) ? options.join() : options;
-      const orderDetail = [
-        {
-          itemId: data.productId,
-          itemOption: options,
-          shippingMemo: data.shippingMemo,
-        },
-      ];
-      return orderDetail;
+      return data;
     },
     async getOrders(context, orderId) {
       const { data } = await getOrders(orderId);
@@ -64,10 +56,12 @@ export default new Vuex.Store({
           ? options.join()
           : options;
         return {
-          orderId: item.data.productOrderId,
+          productOrderId: item.data.productOrderId,
           itemId: item.data.productId,
           itemOption: options,
           shippingMemo: item.data.shippingMemo,
+          ordererId: item.data.ordererId,
+          ordererName: item.data.ordererName,
         };
       });
       return orderDetail;

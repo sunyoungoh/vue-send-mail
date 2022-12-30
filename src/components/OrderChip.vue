@@ -1,10 +1,10 @@
 <template>
-  <div class="order-chips mb-4">
+  <div>
     <template v-if="$store.state.orderType == 'none'">
       <v-chip
         v-for="(order, i) in orderDetail"
         :key="i"
-        class="my-2 mr-2"
+        class="my-2 mr-2 px-2"
         color="primary"
         label
         outlined
@@ -19,12 +19,11 @@
     </template>
     <template v-else>
       <v-chip
-        v-for="(order, i) in orderDetail"
-        :key="i"
-        class="my-2 mr-2"
+        class="my-2 mr-2 px-2"
         color="primary"
         label
         outlined
+        @click="$emit('open-detail', order.productOrderId)"
       >
         <v-avatar left class="mr-0">
           <v-icon small>mdi-link-variant</v-icon>
@@ -41,8 +40,8 @@
 <script>
 export default {
   props: {
-    orderDetail: {
-      type: Array,
+    order: {
+      type: Object,
     },
   },
   data() {

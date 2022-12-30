@@ -90,7 +90,7 @@ export default {
       } else if (this.$store.state.orderType == 'multiple') {
         result = await Promise.all(
           this.orderDetail.map(async item => {
-            return this.$store.dispatch('dispatchOrder', item.orderId);
+            return this.$store.dispatch('dispatchOrder', item.productOrderId);
           }),
         );
         result = result.every(val => val == 'success') ? 'success' : 'error';

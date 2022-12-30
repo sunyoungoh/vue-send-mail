@@ -1,17 +1,20 @@
 <template>
   <div class="home">
-    <div class="logo py-9 ma-auto text-center primary">
-      <v-icon size="28" color="white"> mdi-email </v-icon>
-      <h2 class="logo-text white--text">SENDMAIL</h2>
+    <div class="logo py-5 ma-auto text-center green">
+      <h3 class="logo-text white--text">
+        <v-icon size="22" color="white" class="mr-1 mb-1"> mdi-email </v-icon
+        >SENDMAIL
+      </h3>
     </div>
     <div class="tabs-container">
       <v-tabs
         v-model="tab"
         :ripple="false"
         background-color="transparent"
-        color="primary"
+        color="green"
         height="56"
-        centered
+        grow
+        show-arrows
       >
         <v-tab
           active-class="font-weight-bold"
@@ -24,6 +27,9 @@
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <NewOrderList />
+        </v-tab-item>
         <v-tab-item>
           <OrderMailForm />
         </v-tab-item>
@@ -41,17 +47,20 @@
 <script>
 import SelectFileMailForm from '@/components/SelectFileMailForm.vue';
 import OrderMailForm from '@/components/OrderMailForm.vue';
+import NewOrderList from '@/components/NewOrderList';
 
 export default {
   name: 'Home',
   components: {
     SelectFileMailForm,
     OrderMailForm,
+    NewOrderList,
   },
   data() {
     return {
       tab: null,
       items: [
+        { value: 'newOrder', text: '신규주문' },
         { value: 'single', text: '스토어 개별배송' },
         { value: 'multiple', text: '스토어 묶음배송' },
         { value: 'none', text: '메일만 발송' },

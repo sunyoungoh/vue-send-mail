@@ -31,7 +31,7 @@
           v-for="(order, i) in orderDetail"
           :key="i"
           :order="order.items"
-          @click.native="openOrderDetail(i)"
+          @click.native="openOrderDetail(order.items.productOrderId)"
         />
       </template>
       <v-alert
@@ -82,6 +82,7 @@ import EmailInputField from '@/components/EmailInputField';
 import OrderChip from '@/components/OrderChip';
 import ResultAlert from '@/components/ResultAlert';
 import SendBtns from '@/components/SendBtns';
+import { openWindow, extractEmail } from '@/utils/utils';
 
 export default {
   name: 'OrderMailForm',
@@ -105,20 +106,12 @@ export default {
   }),
   computed: {
     label() {
-      return this.orderType == 'single' ? '상품주문번호' : '주문번호';
-    },
-    shippingMemoEmail() {
-      const reg = /\S+@+\S+\.+\S{3}/;
-      const email = this.orderDetail[0].shippingMemo.match(reg)[0];
-      return email;
+      return this.activeTab == 'single' ? '상품주문번호' : '주문번호';
     },
   },
   methods: {
-    openOrderDetail(index) {
-      window.open(
-        `https://sell.smartstore.naver.com/o/v3/manage/order/popup/${this.orderDetail[index].productOrderId}/productOrderDetail`,
-        '_blank',
-      );
+    openOrderDetail(id) {
+      openWindow(id);
     },
     setErrorMsg() {
       this.errorMsg = `${this.label}를 조회해주세요.`;
@@ -134,7 +127,7 @@ export default {
       } else {
         this.loading = true;
         try {
-          if (this.$store.state.orderType == 'single') {
+          if (this.$store.state.activeTab == 'single') {
             this.orderDetail = await this.$store.dispatch(
               'getOrderDetail',
               this.orderId,
@@ -146,9 +139,9 @@ export default {
             );
           }
           // 배송메모에 이메일이 있을시 email 자동 추가
-          if (this.orderDetail[0]?.shippingMemo) {
-            this.shippingMemo = this.orderDetail[0]?.shippingMemo;
-            this.email = this.shippingMemoEmail;
+          if (this.orderDetail[0].shippingMemo) {
+            this.shippingMemo = this.orderDetail[0].shippingMemo;
+            this.email = extractEmail(this.shippingMemo);
           }
           this.resetErrorMsg();
         } catch (error) {

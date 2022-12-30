@@ -1,18 +1,19 @@
 <template>
   <v-container class="pt-8 px-4">
-    <div class="text-center mt-16" v-if="loading">
+    <div class="text-center mt-16 pt-10" v-if="loading">
       <v-progress-circular
         :size="50"
+        :width="3"
         color="green"
         indeterminate
       ></v-progress-circular>
     </div>
     <template v-else>
-      <div v-if="orderList" class="pb-4 order-list">
+      <div v-if="orderList.length" class="pb-4 order-list">
         <OrderItem v-for="(order, i) in orderList" :key="i" :order="order" />
       </div>
       <div v-else>
-        <h3 class="text-center mt-16 grey--text text--darken-3">
+        <h3 class="text-center mt-16 pt-10 grey--text text--darken-3">
           신규 주문이 없습니다.
         </h3>
       </div>
@@ -76,8 +77,8 @@ export default {
         });
 
         this.orderList = uniOrderList;
-        this.loading = false;
       }
+      this.loading = false;
     },
   },
 };

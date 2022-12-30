@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="$store.state.orderType == 'none'">
+    <template v-if="$store.state.activeTab == 'none'">
       <v-chip
         v-for="(order, i) in orderDetail"
         :key="i"

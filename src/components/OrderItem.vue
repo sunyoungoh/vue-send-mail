@@ -35,7 +35,7 @@
           v-for="(item, i) in order.items"
           :key="i"
           :order="item"
-          @click.native="openOrderDetail(i)"
+          @click.native="openOrderDetail(item.productOrderId)"
         />
         <EmailInputField v-model="email" class="mt-3" />
       </div>
@@ -68,6 +68,7 @@
 import SnackBar from '@/components/SnackBar';
 import OrderChip from '@/components/OrderChip';
 import EmailInputField from '@/components/EmailInputField';
+import { openWindow, extractEmail } from '@/utils/utils';
 
 export default {
   components: { OrderChip, EmailInputField, SnackBar },
@@ -102,60 +103,33 @@ export default {
   },
   methods: {
     setEmail() {
-      this.email = this.shippingMemo
-        ? this.extractEmail(this.shippingMemo)
-        : '';
+      this.email = this.shippingMemo ? extractEmail(this.shippingMemo) : '';
     },
-    extractEmail(memo) {
-      const reg = /\S+@+\S+\.+\S{3}/;
-      const email = memo.match(reg)[0];
-      return email;
-    },
-    openOrderDetail(index) {
-      console.log(this.order.items[index].productOrderId);
-      window.open(
-        `https://sell.smartstore.naver.com/o/v3/manage/order/popup/${this.order.items[index].productOrderId}/productOrderDetail`,
-        '_blank',
-      );
+    openOrderDetail(id) {
+      openWindow(id);
     },
     async sendMail() {
-      if (this.mailData.toEmail) {
+      if (this.email) {
         this.loading = true;
-        const sendResult = await this.$store.dispatch(
-          'sendMail',
-          this.mailData,
-        );
-        console.log('sendResult', sendResult);
-        if (sendResult == 'success') {
-          this.sendResult = 'success';
-          const dispatchResult = await this.dispatchOrder();
-          this.dispatchResult = dispatchResult;
-          setTimeout(() => {
-            this.show = false;
-          }, 3000);
-        } else {
-          this.sendResult = 'error';
-          this.loading = false;
+        this.sendResult = await this.$store.dispatch('sendMail', this.mailData);
+        // 메일 전송 성공하면 송장 등록
+        if (this.sendResult == 'success') {
+          await this.dispatchOrder();
         }
+        this.loading = false;
       }
     },
     async dispatchOrder() {
-      let result = '';
-      if (this.order.items.length == 1) {
-        result = await this.$store.dispatch(
-          'dispatchOrder',
-          this.order.items[0].productOrderId,
-        );
-      } else {
-        result = await Promise.all(
-          this.order.items.map(async item => {
-            return this.$store.dispatch('dispatchOrder', item.productOrderId);
-          }),
-        );
-        result = result.every(val => val == 'success') ? 'success' : 'error';
-      }
+      this.dispatchResult = await this.$store.dispatch(
+        'dispatchOrder',
+        this.order.items,
+      );
       this.loading = false;
-      return result;
+      if (this.dispatchResult == 'success') {
+        setTimeout(() => {
+          this.show = false;
+        }, 3000);
+      }
     },
   },
   filters: {
@@ -169,30 +143,6 @@ export default {
         hour: '2-digit',
         minute: '2-digit',
       });
-    },
-    orderStatus(code) {
-      switch (code) {
-        case 'AYMENT_WAITING':
-          return '결제대기';
-        case 'PAYED':
-          return '결제완료';
-        case 'DELIVERING':
-          return '배송중';
-        case 'DELIVERED':
-          return '배송완료';
-        case 'PURCHASE_DECIDED':
-          return '결제대기';
-        case 'EXCHANGED':
-          return '교환';
-        case 'CANCELED':
-          return '취소';
-        case 'RETURNED':
-          return '반품';
-        case 'CANCELED_BY_NOPAYMENT':
-          return '미결제취소';
-        case 'DELIVERY_ADDRESS_CHANGED':
-          return '주소변경';
-      }
     },
   },
 };

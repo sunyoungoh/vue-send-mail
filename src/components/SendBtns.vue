@@ -7,7 +7,7 @@
       color="green white--text"
       elevation="0"
       x-large
-      @click="sendMail"
+      @click="dispatchOrder"
     >
       메일 보내기
       <template v-slot:loader>
@@ -85,16 +85,7 @@ export default {
     async dispatchOrder() {
       this.loadingText = '송장 등록 중...';
       let result = '';
-      if (this.$store.state.orderType == 'single') {
-        result = await this.$store.dispatch('dispatchOrder', this.orderId);
-      } else if (this.$store.state.orderType == 'multiple') {
-        result = await Promise.all(
-          this.orderDetail.map(async item => {
-            return this.$store.dispatch('dispatchOrder', item.productOrderId);
-          }),
-        );
-        result = result.every(val => val == 'success') ? 'success' : 'error';
-      }
+      result = await this.$store.dispatch('dispatchOrder', this.orderDetail);
       return result;
     },
     resetForm() {

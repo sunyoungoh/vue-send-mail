@@ -3,7 +3,7 @@
     class="mb-6"
     :value="result !== '' ? true : false"
     :color="color"
-    timeout="3000"
+    timeout="2000"
     bottom
     elevation="24"
   >

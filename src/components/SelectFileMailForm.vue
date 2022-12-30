@@ -18,7 +18,7 @@
         @update:dialog="val => (dialog = val)"
       />
       <template v-if="selectedItem" class="order-chips mb-4">
-        <OrderChip v-for="(order, i) in orderDetail" :key="i" :order="order" />
+        <OrderChip :seleted-item="selectedItem" />
       </template>
       <EmailInputField
         v-model="email"

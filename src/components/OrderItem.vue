@@ -1,59 +1,59 @@
 <template>
   <div class="order-item">
-    <v-card class="mb-6 mx-auto" v-show="show" max-width="500" elevation="7">
-      <v-card-title class="text-body-1 py-3 px-4 font-weight-bold">
-        주문서
-      </v-card-title>
-      <v-divider></v-divider>
-      <div class="pa-4 text-body-2">
-        <div class="orderInfo">
-          <p>
-            🔖 주문번호 :
-            <span class="font-weight-medium"> {{ order.orderId }}</span>
-          </p>
-          <p>
-            ⏰ 결제일시 :
-            <span class="font-weight-medium">{{
-              order.paymentDate | timeFormat
-            }}</span>
-          </p>
-          <p>
-            👩🏻‍💻 구매자 :
-            <span class="text-no-wrap yellow font-weight-medium">
-              {{ order.ordererName }}
-              ({{ order.ordererId }})
-            </span>
-          </p>
-          <p v-if="order.shippingMemo">
-            ✍🏻 배송메모 :
-            <span class="yellow font-weight-medium">
-              {{ order.shippingMemo }}
-            </span>
-          </p>
+    <Transition>
+      <v-card class="mb-6 mx-auto" v-show="show" max-width="500" elevation="7">
+        <v-card-title class="text-body-1 py-3 px-4 font-weight-bold">
+          주문서
+        </v-card-title>
+        <v-divider></v-divider>
+        <div class="pa-4 text-body-2">
+          <div class="order-info">
+            <p>
+              🔖 주문번호 :
+              {{ order.orderId }}
+            </p>
+            <p>
+              ⏰ 결제일시 :
+              {{ order.paymentDate | timeFormat }}
+            </p>
+            <p>
+              👩🏻‍💻 구매자 :
+              <span class="text-no-wrap yellow font-weight-medium">
+                {{ order.ordererName }}
+                ({{ order.ordererId }})
+              </span>
+            </p>
+            <p v-if="order.shippingMemo">
+              ✍🏻 배송메모 :
+              <span class="yellow font-weight-medium">
+                {{ order.shippingMemo }}
+              </span>
+            </p>
+          </div>
+          <OrderChip
+            v-for="(item, i) in order.items"
+            :key="i"
+            :order="item"
+            @click.native="openOrderDetail(item.productOrderId)"
+          />
+          <EmailInputField v-model="email" class="mt-3" />
         </div>
-        <OrderChip
-          v-for="(item, i) in order.items"
-          :key="i"
-          :order="item"
-          @click.native="openOrderDetail(item.productOrderId)"
-        />
-        <EmailInputField v-model="email" class="mt-3" />
-      </div>
-      <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
-        absolute
-        top
-        color="green"
-        height="5"
-      ></v-progress-linear>
-      <v-card-actions class="pb-4 px-4">
-        <v-spacer></v-spacer>
-        <v-btn color="green" width="100" elevation="0" dark @click="sendMail">
-          메일 보내기
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-progress-linear
+          :active="loading"
+          :indeterminate="loading"
+          absolute
+          top
+          color="green"
+          height="5"
+        ></v-progress-linear>
+        <v-card-actions class="pb-4 px-4">
+          <v-spacer></v-spacer>
+          <v-btn color="green" width="100" elevation="0" dark @click="sendMail">
+            메일 보내기
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </Transition>
     <SnackBar :result="sendResult" />
     <SnackBar :result="dispatchResult">
       <template #success>
@@ -100,11 +100,14 @@ export default {
   },
   methods: {
     setEmail() {
-      this.email = this.shippingMemo ? extractEmail(this.shippingMemo) : '';
+      this.email = this.order.shippingMemo
+        ? extractEmail(this.order.shippingMemo)
+        : '';
     },
     openOrderDetail(id) {
       openWindow(id);
     },
+
     async sendMail() {
       if (this.email) {
         this.loading = true;
@@ -125,7 +128,7 @@ export default {
       if (this.dispatchResult == 'success') {
         setTimeout(() => {
           this.show = false;
-        }, 3000);
+        }, 2000);
       }
     },
   },
@@ -147,5 +150,14 @@ export default {
 <style scoped>
 .v-input {
   font-size: 14px !important;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

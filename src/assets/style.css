@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 * {
-  font-family: 'Spoqa Han Sans Neo', 'Sans-serif';
-  letter-spacing: -0.015rem;
+  letter-spacing: -0.01rem;
 }
-
 .logo-text {
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.03rem;
 }
 .tabs-container {
   width: 100%;
@@ -26,6 +24,7 @@
   height: 3px !important;
 }
 .v-tab {
+  font-size: 15px !important;
   letter-spacing: 0.02rem !important;
 }
 .v-tab--active {

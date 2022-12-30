@@ -2,7 +2,7 @@
   <div>
     <template v-if="$store.state.activeTab == 'none'">
       <v-chip
-        v-for="(order, i) in orderDetail"
+        v-for="(item, i) in seletedItem"
         :key="i"
         class="my-2 mr-2 px-2"
         color="primary"
@@ -12,8 +12,8 @@
         @click:close="removeItem(i)"
       >
         <span>
-          {{ order.itemId | itemName }}
-          {{ order.itemOption | roundBraket }}
+          {{ item.itemId | itemName }}
+          {{ item.itemOption | roundBraket }}
         </span>
       </v-chip>
     </template>
@@ -43,6 +43,9 @@ export default {
     order: {
       type: Object,
     },
+    seletedItem: {
+      type: Array,
+    },
   },
   data() {
     return {
@@ -51,7 +54,7 @@ export default {
   },
   methods: {
     removeItem(i) {
-      this.orderDetail.splice(i, 1);
+      this.seletedItem.splice(i, 1);
       this.$emit('update:seletedItem');
     },
   },

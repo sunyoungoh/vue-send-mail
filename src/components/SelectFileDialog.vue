@@ -59,6 +59,9 @@ export default {
         : [{ itemOption: '', itemOptionLabel: '상품옵션' }];
       return itemOptions;
     },
+    optionValid() {
+      return this.options.itemOptions.length == this.selectOption.length;
+    },
   },
   methods: {
     resetSelectBox() {
@@ -72,7 +75,11 @@ export default {
     },
     addItem() {
       this.$refs.dialogForm.validate();
-      if (!!this.selectItem && !!this.selectOption[0]) {
+      const condition =
+        this.options.itemOptions !== undefined
+          ? !!this.selectItem && !!this.optionValid
+          : !!this.selectItem;
+      if (condition) {
         this.$emit('update:seletedItem', {
           itemId: this.selectItem,
           itemOption: this.selectOption.join(','),

@@ -15,6 +15,7 @@
       >
         <v-tab
           active-class="font-weight-bold"
+          class="px-2"
           v-for="(item, i) in items"
           :key="i"
           :ripple="false"

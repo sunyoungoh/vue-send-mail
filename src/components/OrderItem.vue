@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="order-item">
     <v-card class="mb-6 mx-auto" v-show="show" max-width="500" elevation="7">
       <v-card-title class="text-body-1 py-3 px-4 font-weight-bold">
         주문서

@@ -1,15 +1,22 @@
 <template>
   <v-container class="pt-8 px-4">
-    <div v-if="orderList" class="pb-4">
-      <div v-for="(order, i) in orderList" :key="i">
-        <OrderItem :order="order" />
+    <div class="text-center mt-16" v-if="loading">
+      <v-progress-circular
+        :size="50"
+        color="green"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <template v-else>
+      <div v-if="orderList" class="pb-4 order-list">
+        <OrderItem v-for="(order, i) in orderList" :key="i" :order="order" />
       </div>
-    </div>
-    <div v-else>
-      <h3 class="text-center mt-16 grey--text text--darken-3">
-        신규 주문이 없습니다.
-      </h3>
-    </div>
+      <div v-else>
+        <h3 class="text-center mt-16 grey--text text--darken-3">
+          신규 주문이 없습니다.
+        </h3>
+      </div>
+    </template>
   </v-container>
 </template>
 
@@ -24,11 +31,13 @@ export default {
   },
   data() {
     return {
+      loading: false,
       orderList: [],
     };
   },
   methods: {
     async fetchNewOrder() {
+      this.loading = true;
       // 신규주문 리스트 가져오기 (결제완료, 배송지변경 상태만)
       const { data } = await getNewOrders();
       const newOrder = data;
@@ -67,6 +76,7 @@ export default {
         });
 
         this.orderList = uniOrderList;
+        this.loading = false;
       }
     },
   },

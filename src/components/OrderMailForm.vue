@@ -45,7 +45,7 @@
         ✍🏻
         {{ shippingMemo }}
       </v-alert>
-      <EmailInputField v-model="email" :valid="valid" @click="resetResults" />
+      <EmailInputField v-model="email" @click="resetResults" />
       <v-textarea
         v-model="comment"
         name="comment"

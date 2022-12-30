@@ -6,7 +6,7 @@ export const openWindow = id => {
 };
 
 export const extractEmail = memo => {
-  const reg = /\S+@+\S+\.+\S{3}/;
+  const reg = /\S+@+\S+\.+[a-zA-Z]{2,3}/;
   const email = memo.match(reg)[0];
   return email;
 };

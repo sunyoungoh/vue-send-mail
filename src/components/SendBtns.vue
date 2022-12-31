@@ -7,7 +7,7 @@
       color="green white--text"
       elevation="0"
       x-large
-      @click="dispatchOrder"
+      @click="sendMail"
     >
       메일 보내기
       <template v-slot:loader>

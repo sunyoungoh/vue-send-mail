@@ -107,7 +107,6 @@ export default {
     openOrderDetail(id) {
       openWindow(id);
     },
-
     async sendMail() {
       if (this.email) {
         this.loading = true;
@@ -155,7 +154,6 @@ export default {
 .v-leave-active {
   transition: opacity 0.5s ease;
 }
-
 .v-enter-from,
 .v-leave-to {
   opacity: 0;

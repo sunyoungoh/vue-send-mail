@@ -3,7 +3,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-btn
         class="mt-1 mb-2"
-        color="primary"
+        color="secondary"
         block
         large
         elevation="0"
@@ -44,7 +44,7 @@
         @reset-form="resetForm"
       />
     </v-form>
-    <ResultAlert class="pt-6" v-if="sendResult !== ''" :result="sendResult" />
+    <ResultAlert v-if="sendResult !== ''" :result="sendResult" />
   </div>
 </template>
 

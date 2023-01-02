@@ -7,10 +7,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    activeTab: 'single',
+    activeTab: 'newOrder',
   },
   mutations: {
-    setactiveTab(state, activeTab) {
+    setActiveTab(state, activeTab) {
       state.activeTab = activeTab;
     },
   },
@@ -45,7 +45,6 @@ export default new Vuex.Store({
             : 'error';
         }
       } catch (error) {
-        console.log(error);
         dispatchResult = 'error';
       }
       return dispatchResult;

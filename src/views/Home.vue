@@ -19,7 +19,7 @@
           v-for="(item, i) in items"
           :key="i"
           :ripple="false"
-          @click="$store.commit('setactiveTab', item.value)"
+          @click="$store.commit('setActiveTab', item.value)"
         >
           {{ item.text }}
         </v-tab>

@@ -16,7 +16,7 @@
           width="80"
           :disabled="loading"
           :loading="loading"
-          color="primary white--text"
+          color="secondary white--text"
           elevation="0"
           class="ml-4 mb-2"
           @click="getOrderInfo"
@@ -38,7 +38,7 @@
         v-if="shippingMemo"
         border="left"
         colored-border
-        color="primary"
+        color="secondary"
         elevation="2"
         class="text-subtitle-2 mb-6"
       >
@@ -67,7 +67,7 @@
         @reset-form="resetForm"
       />
     </v-form>
-    <ResultAlert class="pt-6" v-if="sendResult !== ''" :result="sendResult" />
+    <ResultAlert v-if="sendResult !== ''" :result="sendResult" />
     <ResultAlert v-if="dispatchResult !== ''" :result="dispatchResult">
       <template #success>
         송장을 <strong>성공적</strong>으로 등록했습니다.

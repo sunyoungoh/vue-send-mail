@@ -1,5 +1,5 @@
 <template>
-  <v-alert :type="result" text>
+  <v-alert :type="result" text class="my-4">
     <span v-if="result == 'success'">
       <slot name="success">
         메일을 <strong>성공적</strong>으로 보냈습니다.

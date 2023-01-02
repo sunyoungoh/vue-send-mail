@@ -5,7 +5,7 @@
         v-for="(item, i) in seletedItem"
         :key="i"
         class="my-2 mr-2 px-2"
-        color="primary"
+        color="secondary"
         label
         outlined
         close
@@ -20,7 +20,7 @@
     <template v-else>
       <v-chip
         class="my-2 mr-2 px-2"
-        color="primary"
+        color="secondary"
         label
         outlined
         @click="$emit('open-detail', order.productOrderId)"

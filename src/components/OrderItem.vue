@@ -1,7 +1,13 @@
 <template>
   <div class="order-item">
     <Transition>
-      <v-card class="mb-6 mx-auto" v-show="show" max-width="500" elevation="7">
+      <v-card
+        class="mb-6 mx-auto"
+        v-show="show"
+        max-width="500"
+        elevation="7"
+        :loading="loading"
+      >
         <v-card-title class="text-body-1 py-3 px-4 font-weight-bold">
           주문서
         </v-card-title>
@@ -37,17 +43,28 @@
             @click.native="openOrderDetail(item.productOrderId)"
           />
           <EmailInputField v-model="email" class="mt-3" />
+          <v-textarea
+            v-model="comment"
+            v-show="toggle"
+            name="comment"
+            label="코멘트"
+            auto-grow
+            rows="1"
+            clearable
+          ></v-textarea>
         </div>
-        <v-progress-linear
-          :active="loading"
-          :indeterminate="loading"
-          absolute
-          top
-          color="green"
-          height="5"
-        ></v-progress-linear>
         <v-card-actions class="pb-4 px-4">
           <v-spacer></v-spacer>
+          <v-btn
+            color="green"
+            width="100"
+            elevation="0"
+            text
+            @click="toggle = !toggle"
+          >
+            <span v-if="!toggle"> 코멘트 추가 </span>
+            <span v-else>코멘트 삭제 </span>
+          </v-btn>
           <v-btn color="green" width="100" elevation="0" dark @click="sendMail">
             메일 보내기
           </v-btn>
@@ -78,10 +95,12 @@ export default {
   data() {
     return {
       loading: false,
+      toggle: false,
       show: true,
       sendResult: '',
       dispatchResult: '',
       email: '',
+      comment: '',
     };
   },
   props: {
@@ -91,10 +110,12 @@ export default {
   },
   computed: {
     mailData() {
+      const comment = this.toggle ? this.comment.replaceAll('\n', '<br/>') : '';
       return {
         store: '영로그',
         items: this.order.items,
         toEmail: this.email,
+        comment: comment,
       };
     },
   },

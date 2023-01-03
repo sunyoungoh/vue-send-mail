@@ -14,8 +14,12 @@ const getOrderDetail = productOrderId => {
   });
 };
 
+const getOrdererId = productOrderId => {
+  return instance.get(`/naver/orderer/${productOrderId}`);
+};
+
 const dispatchOrder = orderId => {
   return instance.post(`/naver/${orderId}`);
 };
 
-export { getNewOrders, getOrders, getOrderDetail, dispatchOrder };
+export { getNewOrders, getOrders, getOrderDetail, getOrdererId, dispatchOrder };

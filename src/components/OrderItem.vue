@@ -42,7 +42,11 @@
             :order="item"
             @click.native="openOrderDetail(item.productOrderId)"
           />
-          <EmailInputField v-model="email" class="mt-3" />
+          <EmailInputField
+            v-model="email"
+            class="mt-3"
+            :loading="emailLoading"
+          />
           <v-textarea
             v-model="comment"
             v-show="toggle"
@@ -86,14 +90,28 @@ import SnackBar from '@/components/SnackBar';
 import OrderChip from '@/components/OrderChip';
 import EmailInputField from '@/components/EmailInputField';
 import { openWindow, extractEmail } from '@/utils/utils';
+import { getOrdererId } from '@/api/order';
 
 export default {
-  components: { OrderChip, EmailInputField, SnackBar },
-  mounted() {
-    this.setEmail();
+  components: {
+    OrderChip,
+    EmailInputField,
+    SnackBar,
+  },
+  async mounted() {
+    if (this.order.shippingMemo) {
+      this.email = extractEmail(this.order.shippingMemo);
+    } else {
+      this.email = '이메일 가져오는 중 ...';
+      this.emailLoading = true;
+      const { data } = await getOrdererId(this.order.items[0].productOrderId);
+      this.email = `${data.ordererId}@naver.com`;
+      this.emailLoading = false;
+    }
   },
   data() {
     return {
+      emailLoading: false,
       loading: false,
       toggle: false,
       show: true,
@@ -120,11 +138,6 @@ export default {
     },
   },
   methods: {
-    setEmail() {
-      this.email = this.order.shippingMemo
-        ? extractEmail(this.order.shippingMemo)
-        : '';
-    },
     openOrderDetail(id) {
       openWindow(id);
     },

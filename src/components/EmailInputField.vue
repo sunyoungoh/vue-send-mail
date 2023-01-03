@@ -6,6 +6,7 @@
     label="이메일"
     hint="아이디만 입력시 자동으로 @naver.com 가 추가됩니다."
     required
+    :loading="loading"
     @click="reset"
     @input="$emit('input', $event)"
     @blur="addNaverDomain"
@@ -19,12 +20,12 @@ export default {
     value: {
       type: String,
     },
+    loading: {
+      type: Boolean,
+    },
   },
   data: () => ({
-    emailRules: [
-      v => !!v || '이메일을 입력해주세요.',
-      v => /\S+@+\S+\.+[a-zA-Z]{2,3}/.test(v) || '이메일 형식으로 입력해주세요',
-    ],
+    emailRules: [v => !!v || '이메일을 입력해주세요.'],
   }),
 
   methods: {

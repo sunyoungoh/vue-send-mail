@@ -10,7 +10,12 @@
     </div>
     <template v-else>
       <div v-if="orderList.length" class="pb-4 order-list">
-        <OrderItem v-for="(order, i) in orderList" :key="i" :order="order" />
+        <OrderItem
+          v-for="(order, i) in orderList"
+          :key="i"
+          :order="order"
+          @remove-item="removeItem(i)"
+        />
       </div>
       <div v-else>
         <h3 class="text-center mt-16 pt-10 grey--text text--darken-3">
@@ -37,6 +42,9 @@ export default {
     };
   },
   methods: {
+    removeItem(i) {
+      this.orderList.splice(i, 1);
+    },
     async fetchNewOrder() {
       this.loading = true;
       // 신규주문 리스트 가져오기 (결제완료, 배송지변경 상태만)
@@ -45,23 +53,19 @@ export default {
       if (newOrder.length) {
         // 상품 주문번호 맵 생성
         const productOrderIds = newOrder.map(item => item.productOrderId);
-
         // 상품 주문 상세내역 조회
         let orderList = await getOrderDetail(productOrderIds);
         orderList = orderList.data;
-
         // 주문번호를 키값으로 객체 생성
         var groupedObj = orderList.reduce((obj, order) => {
           obj[order.orderId] = obj[order.orderId] || [];
           obj[order.orderId].push(order);
           return obj;
         }, {});
-
         // 배열로 변환
         var groupedArr = Object.keys(groupedObj).map(function (key) {
           return { orderId: key, orderInfo: groupedObj[key] };
         });
-
         // 주문번호로 묶은 oderList 생성
         const uniOrderList = groupedArr.map(order => {
           let items = [];
@@ -75,7 +79,6 @@ export default {
             shippingMemo: order.orderInfo[0].shippingMemo,
           };
         });
-
         this.orderList = uniOrderList;
       }
       this.loading = false;

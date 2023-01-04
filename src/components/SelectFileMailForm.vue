@@ -86,9 +86,6 @@ export default {
       this.selectedItem.push(item);
       this.resetErrorMsg();
     },
-    removeSelectedItem(i) {
-      this.selectedItem = this.selectedItem.splice(i, 1);
-    },
     validateForm() {
       this.$refs.form.validate();
     },

@@ -101,7 +101,9 @@ export default {
   async mounted() {
     if (this.order.shippingMemo) {
       this.email = extractEmail(this.order.shippingMemo);
-    } else {
+    }
+    // 배포시 503 에러로 주석처리
+    else {
       this.email = '이메일 가져오는 중 ...';
       this.emailLoading = true;
       const { data } = await getOrdererId(this.order.items[0].productOrderId);
@@ -148,6 +150,7 @@ export default {
         // 메일 전송 성공하면 송장 등록
         if (this.sendResult == 'success') {
           await this.dispatchOrder();
+          this.$emit('remove-item');
         }
         this.loading = false;
       }

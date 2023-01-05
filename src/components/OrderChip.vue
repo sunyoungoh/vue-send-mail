@@ -11,10 +11,15 @@
         close
         @click:close="removeItem(i)"
       >
-        <span>
-          {{ item.itemId | itemName }}
-          {{ item.itemOption | roundBraket }}
-        </span>
+        <v-tooltip bottom color="success">
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on">
+              {{ item.itemId | itemName }}
+              {{ item.itemOption | roundBraket }}
+            </span>
+          </template>
+          <span>클릭하면 주문서 페이지로 이동합니다.</span>
+        </v-tooltip>
       </v-chip>
     </template>
     <template v-else>
@@ -28,10 +33,15 @@
         <v-avatar left class="mr-0">
           <v-icon small>mdi-link-variant</v-icon>
         </v-avatar>
-        <span>
-          {{ order.itemId | itemName }}
-          {{ order.itemOption | roundBraket }}
-        </span>
+        <v-tooltip bottom color="success">
+          <template v-slot:activator="{ on, attrs }">
+            <span v-bind="attrs" v-on="on">
+              {{ order.itemId | itemName }}
+              {{ order.itemOption | roundBraket }}
+            </span>
+          </template>
+          <span>클릭하면 주문서 페이지로 이동합니다.</span>
+        </v-tooltip>
       </v-chip>
     </template>
   </div>

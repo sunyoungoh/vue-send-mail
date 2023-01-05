@@ -150,7 +150,6 @@ export default {
         // 메일 전송 성공하면 송장 등록
         if (this.sendResult == 'success') {
           await this.dispatchOrder();
-          this.$emit('remove-item');
         }
         this.loading = false;
       }
@@ -164,6 +163,7 @@ export default {
       if (this.dispatchResult == 'success') {
         setTimeout(() => {
           this.show = false;
+          this.$emit('remove-item');
         }, 2000);
       }
     },

@@ -1,7 +1,7 @@
 import { instance } from './index';
 
 const getNewOrders = () => {
-  return instance.get(`/naver/orders`);
+  return instance.get(`/naver/orders/new`);
 };
 
 const getOrders = orderId => {
@@ -19,7 +19,7 @@ const getOrdererId = productOrderId => {
 };
 
 const dispatchOrder = orderId => {
-  return instance.post(`/naver/${orderId}`);
+  return instance.post(`/naver/dispatch/${orderId}`);
 };
 
 export { getNewOrders, getOrders, getOrderDetail, getOrdererId, dispatchOrder };

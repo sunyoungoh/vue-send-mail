@@ -101,14 +101,16 @@ export default {
   async mounted() {
     if (this.order.shippingMemo) {
       this.email = extractEmail(this.order.shippingMemo);
-    }
-    // 배포시 503 에러로 주석처리
-    else {
-      this.email = '이메일 가져오는 중 ...';
-      this.emailLoading = true;
-      const { data } = await getOrdererId(this.order.items[0].productOrderId);
-      this.email = `${data.ordererId}@naver.com`;
-      this.emailLoading = false;
+      console.log();
+    } else {
+      // 배포시 503 에러
+      if (process.env.NODE_ENV == 'development') {
+        this.email = '이메일 가져오는 중 ...';
+        this.emailLoading = true;
+        const { data } = await getOrdererId(this.order.items[0].productOrderId);
+        this.email = `${data.ordererId}@naver.com`;
+        this.emailLoading = false;
+      }
     }
   },
   data() {

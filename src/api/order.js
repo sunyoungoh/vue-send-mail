@@ -9,7 +9,7 @@ const getOrders = orderId => {
 };
 
 const getOrderDetail = productOrderId => {
-  return instance.get(`/naver/detail`, {
+  return instance.get(`/naver/orders/detail`, {
     params: { productOrderId: productOrderId },
   });
 };

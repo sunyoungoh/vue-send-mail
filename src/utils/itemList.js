@@ -80,12 +80,17 @@ export const itemList = [
   },
   {
     itemId: 6293308097,
-    itemName: '180 베이직 노트',
+    itemName: '180 베이직 노트패드',
     itemOption: [''],
   },
   {
     itemId: 6498685859,
-    itemName: '180 체커보드 노트',
+    itemName: '180 체커보드 노트패드',
+    itemOption: [''],
+  },
+  {
+    itemId: 7917862453,
+    itemName: '교환일기',
     itemOption: [''],
   },
 ];

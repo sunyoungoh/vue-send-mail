@@ -102,6 +102,8 @@ export default {
           return '180 체커보드 노트';
         case 7674508068:
           return '레시피북';
+        case 7917862453:
+          return '교환일기';
         default:
           return '';
       }

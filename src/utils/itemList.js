@@ -91,6 +91,13 @@ export const itemList = [
   {
     itemId: 7917862453,
     itemName: '교환일기',
+    itemOptions: [
+      { label: '구성', value: ['교환일기', '교환일기+네컷프레임스티커'] },
+    ],
+  },
+  {
+    itemId: 7923245834,
+    itemName: '네컷 프레임 스티커',
     itemOption: [''],
   },
 ];

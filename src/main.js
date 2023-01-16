@@ -38,6 +38,10 @@ Vue.filter('itemName', itemId => {
       return '180 체커보드 노트';
     case 7674508068:
       return '레시피북';
+    case 7917862453:
+      return '교환일기';
+    case 7923245834:
+      return '네컷 프레임 스티커';
     default:
       return '';
   }

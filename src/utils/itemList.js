@@ -32,7 +32,15 @@ export const itemList = [
   },
   {
     itemId: 6183672844,
-    itemName: '31DAYS 플래너',
+    itemName: '세로형 31DAYS 플래너',
+    itemOptions: [
+      { label: '컬러', value: ['화이트', '다크'] },
+      { label: '데일리타입', value: ['스케줄', '타임테이블'] },
+    ],
+  },
+  {
+    itemId: 7988182711,
+    itemName: '가로형 31DAYS 플래너',
     itemOptions: [
       { label: '컬러', value: ['화이트', '다크'] },
       { label: '데일리타입', value: ['스케줄', '타임테이블'] },

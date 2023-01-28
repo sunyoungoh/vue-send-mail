@@ -90,7 +90,7 @@ import SnackBar from '@/components/SnackBar';
 import OrderChip from '@/components/OrderChip';
 import EmailInputField from '@/components/EmailInputField';
 import { openWindow, extractEmail } from '@/utils/utils';
-import { getOrdererId } from '@/api/order';
+// import { getOrdererId } from '@/api/order';
 
 export default {
   components: {
@@ -104,13 +104,13 @@ export default {
       console.log();
     } else {
       // 배포시 503 에러
-      if (process.env.NODE_ENV == 'development') {
-        this.email = '이메일 가져오는 중 ...';
-        this.emailLoading = true;
-        const { data } = await getOrdererId(this.order.items[0].productOrderId);
-        this.email = `${data.ordererId}@naver.com`;
-        this.emailLoading = false;
-      }
+      // if (process.env.NODE_ENV == 'development') {
+      //   this.email = '이메일 가져오는 중 ...';
+      //   this.emailLoading = true;
+      //   const { data } = await getOrdererId(this.order.items[0].productOrderId);
+      //   this.email = `${data.ordererId}@naver.com`;
+      //   this.emailLoading = false;
+      // }
     }
   },
   data() {

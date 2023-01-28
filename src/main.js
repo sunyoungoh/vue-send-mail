@@ -19,7 +19,9 @@ Vue.filter('itemName', itemId => {
     case 6230373650:
       return '2023 먼슬리&데일리 플래너';
     case 6183672844:
-      return '31DAYS 플래너';
+      return '세로형 31DAYS 플래너';
+    case 7988182711:
+      return '가로형 31DAYS 플래너';
     case 6339448390:
       return '3년 5년 다이어리';
     case 6668700804:

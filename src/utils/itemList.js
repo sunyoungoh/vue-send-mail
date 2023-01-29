@@ -100,6 +100,7 @@ export const itemList = [
     itemId: 7917862453,
     itemName: '교환일기',
     itemOptions: [
+      { label: '인원', value: ['1인', '2~4인'] },
       { label: '구성', value: ['교환일기', '교환일기+네컷프레임스티커'] },
     ],
   },

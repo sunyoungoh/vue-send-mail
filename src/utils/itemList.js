@@ -34,6 +34,7 @@ export const itemList = [
     itemId: 6183672844,
     itemName: '세로형 31DAYS 플래너',
     itemOptions: [
+      { label: '버전', value: ['버전1', '버전2'] },
       { label: '컬러', value: ['화이트', '다크', '화이트+다크'] },
       { label: '데일리타입', value: ['스케줄', '타임테이블'] },
     ],

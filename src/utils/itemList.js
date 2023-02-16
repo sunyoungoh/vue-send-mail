@@ -110,4 +110,9 @@ export const itemList = [
     itemName: '네컷 프레임 스티커',
     itemOption: [''],
   },
+  {
+    itemId: 8097265225,
+    itemName: '디데이,타임스탬프 스티커',
+    itemOption: [''],
+  },
 ];

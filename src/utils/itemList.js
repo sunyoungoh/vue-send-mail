@@ -19,7 +19,9 @@ export const itemList = [
   {
     itemId: 7551229680,
     itemName: '2023 타임라인 플래너',
-    itemOptions: [{ label: '위클리타입', value: ['스케줄', '타임테이블'] }],
+    itemOptions: [
+      { label: '위클리타입', value: ['스케줄', '타임테이블', '식단일기'] },
+    ],
   },
   {
     itemId: 6230373650,
@@ -79,8 +81,11 @@ export const itemList = [
   },
   {
     itemId: 7118280906,
-    itemName: '드라마노트',
-    itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
+    itemName: '영화(드라마)노트',
+    itemOptions: [
+      { label: '타입', value: ['영화', '드라마'] },
+      { label: '컬러', value: ['화이트', '다크'] },
+    ],
   },
   {
     itemId: 6390846551,

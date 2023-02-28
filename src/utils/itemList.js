@@ -80,6 +80,11 @@ export const itemList = [
     itemOptions: [{ label: '컬러', value: ['화이트', '다크'] }],
   },
   {
+    itemId: 8152103143,
+    itemName: '강의노트',
+    itemOptions: [{ label: '컬러', value: ['블랙', '그레이'] }],
+  },
+  {
     itemId: 7118280906,
     itemName: '영화(드라마)노트',
     itemOptions: [

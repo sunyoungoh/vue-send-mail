@@ -30,8 +30,10 @@ Vue.filter('itemName', itemId => {
       return '가로형 인덱스 노트';
     case 6907619722:
       return '독서노트';
+    case 8152103143:
+      return '강의노트';
     case 7118280906:
-      return '드라마노트';
+      return '영화(드라마)노트';
     case 6390846551:
       return '먼슬리 트래커북';
     case 6293308097:

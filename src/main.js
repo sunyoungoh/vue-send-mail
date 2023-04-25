@@ -5,6 +5,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
+// NOTE: 상품 추가시 업데이트 할 부분
 Vue.filter('itemName', itemId => {
   if (typeof itemId == 'string') {
     itemId = Number(itemId);
@@ -48,6 +49,8 @@ Vue.filter('itemName', itemId => {
       return '네컷 프레임 스티커';
     case 8097265225:
       return '디데이,타임스탬프 스티커';
+    case 8457559941:
+      return '5분 저널';
     default:
       return '';
   }

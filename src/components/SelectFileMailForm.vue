@@ -17,8 +17,8 @@
         @update:seletedItem="addSelectedItem"
         @update:dialog="val => (dialog = val)"
       />
-      <template v-if="selectedItem" class="order-chips mb-4">
-        <OrderChip :seleted-item="selectedItem" />
+      <template v-if="selectedItem">
+        <OrderChip :seleted-item="selectedItem" class="order-chips mb-4" />
       </template>
       <EmailInputField
         v-model="email"
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import { itemList } from '@/utils/itemList';
 import EmailInputField from '@/components/EmailInputField';
 import SelectFileDialog from '@/components/SelectFileDialog';
 import OrderChip from '@/components/OrderChip';
@@ -71,7 +70,6 @@ export default {
     comment: '',
     sendResult: '',
     errorMsg: '',
-    items: itemList,
     valid: true,
     dialog: false,
   }),

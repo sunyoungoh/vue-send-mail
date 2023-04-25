@@ -1,3 +1,4 @@
+// NOTE: 상품 추가시 업데이트 할 부분
 export const itemList = [
   {
     itemId: 6175018692,
@@ -123,6 +124,11 @@ export const itemList = [
   {
     itemId: 8097265225,
     itemName: '디데이,타임스탬프 스티커',
+    itemOption: [''],
+  },
+  {
+    itemId: 8457559941,
+    itemName: '5분 저널',
     itemOption: [''],
   },
 ];

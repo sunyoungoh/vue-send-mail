@@ -21,7 +21,9 @@
 - express
 - nodemailer
 
-#### Open API
+<br>
+
+## Open API
 
 - [네이버 커머스 API 센터](https://apicenter.commerce.naver.com/ko/basic/commerce-api)
 
